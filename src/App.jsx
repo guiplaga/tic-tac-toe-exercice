@@ -1,23 +1,13 @@
 import './App.css'
+import { Board } from './components/board'
+import { Square } from './components/square'
+
 
 function App() {
-
-  const board = Array(9).fill(null)
   return (
     <main>
-      <section className='board'>
-        {
-          board.map((_, index) => {
-            return (
-              <section className='cell'>
-                <span className='cell-content'>
-                  {index}
-                </span>
-              </section>
-            )
-          })
-        }
-      </section>
+      <h1>Tic Tac Toe</h1>
+      <Board/>
     </main>
   )
 }
