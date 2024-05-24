@@ -10,9 +10,13 @@ export function Board() {
   const [board, setBoard] = useState(Array(9).fill(null));
   const [turn, setTurn] = useState(PLAYERS.X);
 
+
   const checkWinner = (newBoard) => {
     for (const [a, b, c] of WINNERCOMBOS) {
-      if (newBoard[a] && (newBoard[a] === newBoard[b]) && (newBoard[b] === newBoard[c])) setWinner(newBoard[a]);
+      if (newBoard[a] &&
+         (newBoard[a] === newBoard[b]) &&
+         (newBoard[b] === newBoard[c])) 
+         return newBoard[a];
     }
     return
   }
@@ -23,7 +27,11 @@ export function Board() {
     if (auxBoard[index] || winner) return
     auxBoard[index] = turn
     setBoard(auxBoard)
-    checkWinner(auxBoard)
+    const newWinner = checkWinner(auxBoard)
+    if (newWinner) {
+      setWinner(newWinner);
+    } else if (!auxBoard.includes(null))
+      setWinner(false);
     setTurn(turn === PLAYERS.X ? PLAYERS.O : PLAYERS.X)
   }
 
@@ -33,7 +41,10 @@ export function Board() {
         {
           board.map((_, index) => {
             return (
-              <Square key={index} index={index} updateBoard={updateBoard}>
+              <Square 
+              key={index} 
+              index={index} 
+              updateBoard={updateBoard}>
                 {board[index]}
               </Square>
             )
@@ -41,6 +52,23 @@ export function Board() {
         }
       </section>
       <TurnIndicator turn={turn}/>
+
+      {
+        winner !== null && (
+          <section className='winner-section'>
+            <h2>
+              {
+                winner === false
+                ? 'Empate'
+                : 'Gana '
+              }
+            </h2>
+            <header>
+              {winner && <Square>{winner}</Square>}
+            </header>
+          </section>
+        )
+      }
     </>
   )
 }

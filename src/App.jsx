@@ -1,6 +1,6 @@
 import './App.css'
 import { Board } from './components/board'
-import { Square } from './components/square'
+
 
 
 function App() {
